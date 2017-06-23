@@ -1,7 +1,7 @@
 //ring_buffer.c
 #include "ring_buffer.h"
 
-//·µ»Øµ±Ç°¿ÉÐ´ÈëµÄÎ»ÖÃ
+//è¿”å›žå½“å‰å¯å†™å…¥çš„ä½ç½®
 int32_t rb_w_get( rb_h_t *rb_h )
 {
 	uint32_t s=rb_h->s-1;
@@ -14,7 +14,7 @@ int32_t rb_w_get( rb_h_t *rb_h )
 		return (int32_t)rb_h->i;
 	}
 }
-//·µ»Øµ±Ç°¿É¶ÁµÄÎ»ÖÃ
+//è¿”å›žå½“å‰å¯è¯»çš„ä½ç½®
 int32_t rb_r_get(rb_h_t *rb_h )
 {
 	if(rb_h->o==rb_h->i)
@@ -67,61 +67,11 @@ void rb_init(rb_h_t *rb_h,uint32_t nb_ploy)
 }
 
 /*
-*¸ù¾ÝrbÍ·ºÍindex¹ýÈ¥¸ºÔØÊ×µØÖ·
-* rb_h:Ö¸Õë
-* ploy_t :¸ºÔØÀàÐÍ
-* index: ¸ºÔØÊý×éÐòºÅ
+*æ ¹æ®rbå¤´å’Œindexè¿‡åŽ»è´Ÿè½½é¦–åœ°å€
+* rb_h:æŒ‡é’ˆ
+* ploy_t :è´Ÿè½½ç±»åž‹
+* index: è´Ÿè½½æ•°ç»„åºå·
 */
 #define rb_get_array(rb_h,ploy_t,index) ( ( (ploy_t *)(((uint8_t *)(&((rb_h)->end__)))+sizeof(((rb_h)->end__)))) +index)
-
-struct 
-{
-	rb_h_t h;
-	uint8_t ploy[4];
-	
-}rb_test_val;
-
-void rb_test_fun(void)
-{
-	uint32_t i,j;
-	
-	uint8_t *p;
-	rb_init(&rb_test_val.h,sizeof(rb_test_val.ploy)/sizeof(rb_test_val.ploy[0]));
-	for(j=0;j<3;j++)
-	{
-		i=rb_w_get(&rb_test_val.h);
-		if(j!=i)
-		{
-			while(1);//´íÎó
-		}
-		p=rb_get_array( &rb_test_val.h,uint8_t,i);
-		*p=((j+1)<<4)|i;
-		if( (((j+1)<<4)|i)!=rb_test_val.ploy[j])
-		{
-			while(1);
-		}
-		rb_w_push(&rb_test_val.h);
-		
-	}
-
-	for(j=0;j<3;j++)
-	{
-		i=rb_r_get(&rb_test_val.h);
-		if(j!=i)
-		{
-			while(1);//´íÎó
-		}
-		p=rb_get_array( &rb_test_val.h,uint8_t,i);
-		if( (((j+1)<<4)|i)!=*p)
-		{
-			while(1);
-		}
-		rb_r_pop(&rb_test_val.h);
-		
-	}
-
-	
-	
-}
 
 
