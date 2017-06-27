@@ -1,6 +1,12 @@
 //ring_buffer.h
 #ifndef __RING_BUFFER__H_
 #define __RING_BUFFER__H_
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+
 #include <stdint.h>
 #define __rb_packet  __attribute__((__packed__))
 /*
@@ -9,7 +15,7 @@
 */
 
 
-typedef __rb_packet struct 
+ typedef  struct 
 {
 	uint32_t  i;
 	uint32_t  o;
@@ -17,7 +23,7 @@ typedef __rb_packet struct
 	/*À©Õ¹...*/
 	
 	void *  end__;//½áÊø
-}rb_h_t;
+}__rb_packet rb_h_t;
 
 
 
@@ -51,5 +57,9 @@ void rb_init(rb_h_t *rb_h,uint32_t nb_ploy);
 */
 #define rb_get_array(rb_h,ploy_t,index) ( ( (ploy_t *)(((uint8_t *)(&((rb_h)->end__)))+sizeof(((rb_h)->end__)))) +index)
 
+#ifdef __cplusplus
+ }
+#endif
 
 #endif
+
